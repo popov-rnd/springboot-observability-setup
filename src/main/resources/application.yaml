@@ -1,0 +1,43 @@
+spring:
+  application:
+   name: springboot-observability-setup
+
+  profiles:
+    active: ${PROFILE:dev}
+
+  #----------Virtual threads----------
+  threads:
+    virtual:
+      enabled: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_ISSUER_URI:https://dev-mos457kyepurlbli.us.auth0.com/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  metrics:
+    enable:
+      tomcat: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  observations:
+    annotations:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 0.01  # Trace 1% (for prod)
+  otlp:
+    tracing:
+      endpoint: ${TRACING_ENDPOINT:http://localhost:4318/v1/traces}
+
+logging:
+  level:
+    root: warn
