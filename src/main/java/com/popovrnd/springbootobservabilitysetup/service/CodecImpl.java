@@ -26,8 +26,6 @@ public class CodecImpl implements Codec {
     @Autowired
     private Tracer tracer;
 
-    //@Observed(name = "shortener.encode.lookup", contextualName = "Encode method")
-    //@Timed(value = "shortener.encode.execution", description = "Time taken by myMethod")
     @Override
     public String encode(String longUrl) {
 

@@ -10,34 +10,35 @@ spring:
     virtual:
       enabled: false
 
+  #----------JWT-based security----------
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${OAUTH2_ISSUER_URI:https://dev-mos457kyepurlbli.us.auth0.com/}
+          issuer-uri: ${OAUTH2_ISSUER_URI}
 
+#----------Observability----------
 management:
   endpoints:
     web:
-      exposure:
-        include: prometheus, health, info
+     exposure:
+      include: health,info,prometheus
+
   metrics:
-    enable:
-      tomcat: true
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-  observations:
-    annotations:
-      enabled: true
+    tags:
+      application: ${spring.application.name}
+      env: ${spring.profiles.active:unknown}
+
   tracing:
     sampling:
-      probability: 0.01  # Trace 1% (for prod)
+     probability: 1   # optional 1%, defaults to 100%
+
   otlp:
     tracing:
-      endpoint: ${TRACING_ENDPOINT:http://localhost:4318/v1/traces}
+     endpoint: ${TRACING_ENDPOINT:http://localhost:4318/v1/traces}
 
+
+#----------Logging, see logback-spring.xml----------
 logging:
   level:
     root: warn
